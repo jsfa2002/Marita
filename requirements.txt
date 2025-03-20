@@ -1,11 +1,4 @@
 streamlit
 pillow
-pandas
-numpy
-matplotlib
-os
-random
-PIL
-io
 request
 Pillow
