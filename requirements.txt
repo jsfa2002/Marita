@@ -4,3 +4,6 @@ numpy
 matplotlib
 os
 random
+PIL
+io
+request
