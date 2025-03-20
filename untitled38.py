@@ -19,7 +19,7 @@ GITHUB_TOKEN = "github_pat_11BO4V27A0iInONgtImlYM_kshlrIUGfzGxLeBFEbXf554yGs8G1r
 # 📂 Configuración del repositorio privado
 OWNER = "jsfa2002"
 REPO = "fotos_lindas"
-IMAGE_PATH = "imagenemYm"  # Ruta dentro del repo
+IMAGE_PATH = "imagenesmYm"  # Ruta dentro del repo
 
 # 🔹 Función para obtener imágenes del repo privado
 def obtener_lista_imagenes():
