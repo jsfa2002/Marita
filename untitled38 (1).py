@@ -13,59 +13,43 @@ import random
 from PIL import Image
 from io import BytesIO
 
-# 🔒 Token de GitHub (NO compartir con nadie)
-GITHUB_TOKEN = "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"
-
-# 📂 Configuración del repositorio privado con imágenes
+# 📂 Configuración del repositorio público
 OWNER = "jsfa2002"
 REPO = "fotos_lindas"
-IMAGE_PATH = "imagenesmYm"  # ⚠️ Asegúrate de que este sea el nombre correcto de la carpeta
+IMAGE_PATH = "imagenesmYm"  # Ruta dentro del repo
 
-# 🔹 Función para obtener imágenes del repo privado
+# 🔹 Función para obtener imágenes del repo público
 def obtener_lista_imagenes():
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{IMAGE_PATH}"
-    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"}
-
-    response = requests.get(url, headers=headers)
+    response = requests.get(url)
 
     if response.status_code == 200:
-        return [file["path"] for file in response.json() if file["name"].endswith((".png", ".jpg", ".jpeg"))]
+        return [file["download_url"] for file in response.json() if file["name"].endswith((".png", ".jpg", ".jpeg"))]
     else:
         st.error(f"Error al obtener imágenes. Código {response.status_code}")
         return []
 
-# 🔹 Función para descargar imágenes privadas
-def descargar_imagen(path):
-    url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{path}"
-    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"}
-
-    response = requests.get(url, headers=headers)
-
-    if response.status_code == 200:
-        image_data = response.json()["content"]  # Base64
-        image_bytes = BytesIO(base64.b64decode(image_data))  # Decodificar imagen
-        return Image.open(image_bytes)
-    else:
-        st.error("No se pudo cargar la imagen.")
-        return None
-
 # 📷 Cargar imágenes
-image_paths = obtener_lista_imagenes()
+image_urls = obtener_lista_imagenes()
 
 # 🖼 Mostrar imagen aleatoria al presionar el botón
-if image_paths:
+if image_urls:
     if "img_index" not in st.session_state:
-        st.session_state.img_index = random.randint(0, len(image_paths) - 1)
+        st.session_state.img_index = random.randint(0, len(image_urls) - 1)
 
     if st.button("Te amo 💕"):
-        st.session_state.img_index = random.randint(0, len(image_paths) - 1)
+        st.session_state.img_index = random.randint(0, len(image_urls) - 1)
 
     # Descargar y mostrar la imagen
-    image = descargar_imagen(image_paths[st.session_state.img_index])
-    if image:
+    response = requests.get(image_urls[st.session_state.img_index])
+    if response.status_code == 200:
+        image = Image.open(BytesIO(response.content))
         st.image(image, use_column_width=True)
+    else:
+        st.error("No se pudo cargar la imagen.")
 
     # ✨ Mensaje bonito
     st.markdown("<h2 style='text-align: center; color: pink;'>Eres lo más boni de mi mundo 🌸</h2>", unsafe_allow_html=True)
 else:
     st.warning("No hay imágenes disponibles.")
+
