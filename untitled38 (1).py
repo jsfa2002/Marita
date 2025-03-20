@@ -18,7 +18,8 @@ OWNER = "jsfa2002"
 REPO = "fotos_lindas"
 IMAGE_PATH = "imagenesmYm"  # Ruta dentro del repo
 
-# 🔹 Función para obtener imágenes del repo público
+# 🔹 Función optimizada para obtener imágenes (con caché)
+@st.cache_data
 def obtener_lista_imagenes():
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{IMAGE_PATH}"
     response = requests.get(url)
@@ -32,27 +33,27 @@ def obtener_lista_imagenes():
 # 📷 Cargar imágenes
 image_urls = obtener_lista_imagenes()
 
-# 🎀 Encabezado bonito con emojis
-st.markdown("<h1 style='text-align: center; color: #FF69B4;'>Nuestras fotos 🧚‍♀️🚢</h1>", unsafe_allow_html=True)
+# 🏷 Mensaje superior
+st.markdown("<h1 style='text-align: center; color: #ff66b2;'>🧚 Nuestras fotos ⛵</h1>", unsafe_allow_html=True)
 
-# 🖼 Mostrar imagen aleatoria al presionar el botón
 if image_urls:
     if "img_index" not in st.session_state:
         st.session_state.img_index = random.randint(0, len(image_urls) - 1)
 
-    # 💕 Botón "Te amo" más grande y centrado
-    if st.button("💖 𝗧𝗲 𝗮𝗺𝗼 💕", use_container_width=True):
-        st.session_state.img_index = random.randint(0, len(image_urls) - 1)
+    col1, col2, col3 = st.columns([1, 3, 1])  # Centrar botón
+    with col2:
+        if st.button("💖 TE AMO 💖", use_container_width=True):
+            st.session_state.img_index = random.randint(0, len(image_urls) - 1)
 
     # Descargar y mostrar la imagen
     response = requests.get(image_urls[st.session_state.img_index])
     if response.status_code == 200:
         image = Image.open(BytesIO(response.content))
-        st.image(image, use_container_width=True)  # 📌 Corrección del parámetro
+        st.image(image, use_container_width=True)  # Se corrigió `use_column_width`
     else:
         st.error("No se pudo cargar la imagen.")
 
-    # ✨ Mensaje bonito
-    st.markdown("<h2 style='text-align: center; color: pink;'>Eres lo más bonito de mi mundo 🌸</h2>", unsafe_allow_html=True)
+    # 🌸 Mensaje bonito centrado debajo de la imagen
+    st.markdown("<h2 style='text-align: center; color: #ff66b2;'>Eres lo más bonito de mi mundo 🌸</h2>", unsafe_allow_html=True)
 else:
     st.warning("No hay imágenes disponibles.")
