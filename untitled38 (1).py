@@ -24,7 +24,8 @@ IMAGE_PATH = "imagenesmYm"  # ⚠️ Asegúrate de que este sea el nombre correc
 # 🔹 Función para obtener imágenes del repo privado
 def obtener_lista_imagenes():
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{IMAGE_PATH}"
-    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"}
+
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
@@ -36,7 +37,8 @@ def obtener_lista_imagenes():
 # 🔹 Función para descargar imágenes privadas
 def descargar_imagen(path):
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{path}"
-    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"}
+
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
