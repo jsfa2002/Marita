@@ -16,9 +16,9 @@ from io import BytesIO
 # 📂 Configuración del repositorio
 OWNER = "jsfa2002"
 REPO = "fotos_lindas"
-IMAGE_PATH = "imagenesmYm"  # Ruta dentro del repo
+IMAGE_PATH = "imagenesmYm"  # Asegúrate de que esta ruta es correcta
 
-# 🔹 Función para obtener imágenes
+# 🔹 Función para obtener imágenes del repositorio
 def obtener_lista_imagenes():
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{IMAGE_PATH}"
     headers = {"Accept": "application/vnd.github.v3+json"}
@@ -30,18 +30,17 @@ def obtener_lista_imagenes():
         st.error(f"❌ Error al obtener imágenes. Código {response.status_code}")
         return []
 
+# 🖼 Mostrar título con emojis
+st.markdown("<h1 style='text-align: center; color: pink;'>🧚‍♀️ Nuestras fotos ⛵</h1>", unsafe_allow_html=True)
+
 # 📷 Cargar imágenes
 image_urls = obtener_lista_imagenes()
-
-# 🏷 Mensaje superior centrado
-st.markdown("<h1 style='text-align: center; color: #ff66b2;'>🧚 Nuestras fotos ⛵</h1>", unsafe_allow_html=True)
 
 if image_urls:
     if "img_index" not in st.session_state:
         st.session_state.img_index = random.randint(0, len(image_urls) - 1)
 
-    # 📌 Botón grande y centrado
-    if st.button("💖 TE AMO 💖", help="Haz clic para ver otra foto", use_container_width=True):
+    if st.button("💖 Te amo 💖", use_container_width=True):
         st.session_state.img_index = random.randint(0, len(image_urls) - 1)
 
     # Descargar y mostrar la imagen
@@ -49,7 +48,10 @@ if image_urls:
     if response.status_code == 200:
         image = Image.open(BytesIO(response.content))
         st.image(image, use_container_width=True)
+
+        # 💖 Mensaje bonito debajo de la imagen
+        st.markdown("<h2 style='text-align: center; color: pink;'>Eres lo más bonito de mi mundo 💖</h2>", unsafe_allow_html=True)
     else:
-        st.error("⚠️ No se pudo cargar la imagen.")
+        st.error("❌ No se pudo cargar la imagen.")
 else:
-    st.warning("⚠️ No hay imágenes disponibles.")
+    st.warning("⚠ No hay imágenes disponibles.")
