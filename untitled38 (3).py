@@ -19,9 +19,10 @@ REPO = "fotos_lindas"
 IMAGE_PATH = "imagenesmYm"  # Asegúrate de que esta ruta es correcta
 
 # 🔹 Función para obtener imágenes del repositorio
+# 🔹 Función para obtener imágenes del repo privado
 def obtener_lista_imagenes():
-    url = f"https://github.com/jsfa2002/fotos_lindas.git/contents/imagenesmYm"
-    headers = {"Accept": "application/vnd.github.v3+json"}
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{IMAGE_PATH}"
+    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
