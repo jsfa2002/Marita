@@ -13,6 +13,8 @@ import random
 from PIL import Image
 from io import BytesIO
 
+GITHUB_TOKEN = "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"
+
 # 📂 Configuración del repositorio
 OWNER = "jsfa2002"
 REPO = "fotos_lindas"
