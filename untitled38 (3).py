@@ -4,7 +4,7 @@ import random
 from PIL import Image
 from io import BytesIO
 
-# 🔒 Token de GitHub (¡NO compartas esto públicamente!)
+# 🔒 Token de GitHub (NO compartir con nadie)
 GITHUB_TOKEN = "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"
 
 # 📂 Configuración del repositorio
@@ -17,16 +17,18 @@ def obtener_lista_imagenes():
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{IMAGE_PATH}"
     headers = {
         "Accept": "application/vnd.github.v3+json",
-        "Authorization": f"token {GITHUB_TOKEN}"  # Autenticación
+        "Authorization": f"Bearer {GITHUB_TOKEN}"  # Corregido
     }
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
         return [file["download_url"] for file in response.json() if file["name"].endswith((".png", ".jpg", ".jpeg"))]
+    elif response.status_code == 401:
+        st.error("❌ Token inválido o sin permisos. Verifica el token en GitHub.")
     elif response.status_code == 403:
-        st.error("❌ Acceso prohibido (403). Verifica el token o espera unos minutos.")
+        st.error("❌ Acceso prohibido. Puede ser por muchas solicitudes. Espera unos minutos.")
     elif response.status_code == 404:
-        st.error("❌ No se encontró la carpeta. Verifica la ruta en GitHub.")
+        st.error("❌ No se encontró la carpeta de imágenes. Verifica la ruta en GitHub.")
     else:
         st.error(f"❌ Error al obtener imágenes. Código {response.status_code}")
     return []
