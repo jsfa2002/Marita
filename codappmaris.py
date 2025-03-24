@@ -16,7 +16,7 @@ from io import BytesIO
 # 📂 Configuración del repositorio
 OWNER = "jsfa2002"
 REPO = "fotos_lindas"
-IMAGE_PATH = "imagenemYm"  # Asegúrate de que esta ruta es correcta
+IMAGE_PATH = "imagenesmYm"  # Asegúrate de que esta ruta es correcta
 
 # 🔹 Función para obtener imágenes del repositorio
 def obtener_lista_imagenes():
