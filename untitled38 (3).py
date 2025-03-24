@@ -20,7 +20,7 @@ IMAGE_PATH = "imagenesmYm"  # Asegúrate de que esta ruta es correcta
 
 # 🔹 Función para obtener imágenes del repositorio
 def obtener_lista_imagenes():
-    url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{IMAGE_PATH}"
+    url = f"https://github.com/jsfa2002/fotos_lindas.git/contents/imagenesmYm"
     headers = {"Accept": "application/vnd.github.v3+json"}
     response = requests.get(url, headers=headers)
 
