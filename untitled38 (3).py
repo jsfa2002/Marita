@@ -13,18 +13,15 @@ import random
 from PIL import Image
 from io import BytesIO
 
-GITHUB_TOKEN = "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"
-
 # 📂 Configuración del repositorio
 OWNER = "jsfa2002"
 REPO = "fotos_lindas"
 IMAGE_PATH = "imagenesmYm"  # Asegúrate de que esta ruta es correcta
 
 # 🔹 Función para obtener imágenes del repositorio
-# 🔹 Función para obtener imágenes del repo privado
 def obtener_lista_imagenes():
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{IMAGE_PATH}"
-    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"}
+    headers = {"Accept": "application/vnd.github.v3+json"}
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
@@ -58,3 +55,4 @@ if image_urls:
         st.error("❌ No se pudo cargar la imagen.")
 else:
     st.warning("⚠ No hay imágenes disponibles.")
+
